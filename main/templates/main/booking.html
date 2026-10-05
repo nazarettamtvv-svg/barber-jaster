@@ -1,0 +1,50 @@
+{% extends "main/base.html" %}
+
+{% block title %}Запис на прийом — Barber Jaster{% endblock %}
+
+{% block content %}
+<main class="booking-page">
+    <div class="container booking-layout">
+        <div class="booking-info reveal">
+            <span class="eyebrow">ЗАПИС НА ПРИЙОМ</span>
+            <h1>Обери дату<br>і час.</h1>
+            <p>
+                Заповни форму. Якщо час уже зайнятий,
+                сайт попросить обрати інший.
+            </p>
+
+            <div class="booking-note">
+                <span>Графік</span>
+                <strong>Пн–Нд · 10:00–20:00</strong>
+            </div>
+        </div>
+
+        <div class="form-card reveal">
+            <form method="post" id="bookingForm">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in form %}
+                    <div class="field">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+
+                        {% for error in field.errors %}
+                            <span class="field-error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <button class="btn full-btn" type="submit">
+                    Підтвердити запис
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

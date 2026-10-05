@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Barber Jaster{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+</head>
+<body>
+
+<header class="header">
+    <div class="container nav">
+        <a class="logo" href="{% url 'main:home' %}">
+            <span class="logo-mark">BJ</span>
+            <span>Barber Jaster</span>
+        </a>
+
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="{% url 'main:home' %}#services">Послуги</a>
+            <a href="{% url 'main:home' %}#about">Про нас</a>
+            <a href="{% url 'main:home' %}#contact">Контакти</a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'main:my_bookings' %}">Мої записи</a>
+                <a class="mobile-accent" href="{% url 'main:booking' %}">Записатися</a>
+                <form class="logout-form" method="post" action="{% url 'main:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-button">Вийти</button>
+                </form>
+            {% else %}
+                <a href="{% url 'main:login' %}">Увійти</a>
+                <a class="mobile-accent" href="{% url 'main:register' %}">Реєстрація</a>
+            {% endif %}
+        </nav>
+
+        {% if user.is_authenticated %}
+            <a class="btn btn-small desktop-only" href="{% url 'main:booking' %}">
+                Записатися
+            </a>
+        {% else %}
+            <a class="btn btn-small desktop-only" href="{% url 'main:register' %}">
+                Реєстрація
+            </a>
+        {% endif %}
+    </div>
+</header>
+
+{% if messages %}
+<div class="container messages-wrap">
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+<footer class="footer" id="contact">
+    <div class="container footer-grid">
+        <div>
+            <a class="logo" href="{% url 'main:home' %}">
+                <span class="logo-mark">BJ</span>
+                <span>Barber Jaster</span>
+            </a>
+            <p>Стиль починається з деталей.</p>
+        </div>
+
+        <div>
+            <span class="footer-label">Графік</span>
+            <strong>Пн–Нд · 10:00–20:00</strong>
+        </div>
+
+        <div>
+            <span class="footer-label">Телефон</span>
+            <strong>+380 00 000 00 00</strong>
+        </div>
+    </div>
+
+    <div class="container footer-bottom">
+        © <span id="year"></span> Barber Jaster
+    </div>
+</footer>
+
+<script src="{% static 'main/js/script.js' %}"></script>
+</body>
+</html>

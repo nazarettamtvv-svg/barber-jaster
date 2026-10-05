@@ -1,0 +1,47 @@
+{% extends "main/base.html" %}
+
+{% block title %}Вхід — Barber Jaster{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+    <div class="container auth-grid">
+        <div class="auth-info reveal">
+            <span class="eyebrow">ВХІД</span>
+            <h1>З поверненням.</h1>
+            <p>
+                Увійди в акаунт, щоб записатися на прийом
+                або переглянути свої записи.
+            </p>
+        </div>
+
+        <div class="form-card reveal">
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-errors">
+                        Неправильний логін або пароль.
+                    </div>
+                {% endif %}
+
+                <div class="field">
+                    <label for="{{ form.username.id_for_label }}">Логін</label>
+                    {{ form.username }}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.password.id_for_label }}">Пароль</label>
+                    {{ form.password }}
+                </div>
+
+                <button class="btn full-btn" type="submit">Увійти</button>
+            </form>
+
+            <p class="form-bottom">
+                Немає акаунта?
+                <a href="{% url 'main:register' %}">Реєстрація</a>
+            </p>
+        </div>
+    </div>
+</main>
+{% endblock %}

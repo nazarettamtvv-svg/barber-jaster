@@ -1,0 +1,56 @@
+{% extends "main/base.html" %}
+
+{% block title %}Реєстрація — Barber Jaster{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+    <div class="container auth-grid">
+        <div class="auth-info reveal">
+            <span class="eyebrow">РЕЄСТРАЦІЯ</span>
+            <h1>Створи акаунт.</h1>
+            <p>
+                Після реєстрації ти зможеш записуватися на прийом
+                і переглядати свої записи.
+            </p>
+
+            <div class="auth-benefits">
+                <span>✓ онлайн-запис</span>
+                <span>✓ перегляд своїх прийомів</span>
+                <span>✓ можливість скасувати запис</span>
+            </div>
+        </div>
+
+        <div class="form-card reveal">
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-errors">{{ form.non_field_errors }}</div>
+                {% endif %}
+
+                {% for field in form %}
+                    <div class="field">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small>{{ field.help_text|safe }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <span class="field-error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                <button class="btn full-btn" type="submit">
+                    Зареєструватися
+                </button>
+            </form>
+
+            <p class="form-bottom">
+                Уже є акаунт?
+                <a href="{% url 'main:login' %}">Увійти</a>
+            </p>
+        </div>
+    </div>
+</main>
+{% endblock %}

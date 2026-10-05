@@ -1,0 +1,62 @@
+{% extends "main/base.html" %}
+
+{% block title %}Мої записи — Barber Jaster{% endblock %}
+
+{% block content %}
+<main class="bookings-page">
+    <div class="container">
+        <div class="page-heading reveal">
+            <div>
+                <span class="eyebrow">ОСОБИСТИЙ КАБІНЕТ</span>
+                <h1>Мої записи</h1>
+            </div>
+
+            <a class="btn" href="{% url 'main:booking' %}">
+                + Новий запис
+            </a>
+        </div>
+
+        {% if appointments %}
+            <div class="booking-list">
+                {% for appointment in appointments %}
+                    <article class="booking-item reveal">
+                        <div class="booking-date">
+                            <strong>{{ appointment.appointment_date|date:"d" }}</strong>
+                            <span>{{ appointment.appointment_date|date:"m.Y" }}</span>
+                        </div>
+
+                        <div class="booking-main">
+                            <span class="booking-status">ЗАПЛАНОВАНО</span>
+                            <h3>{{ appointment.get_service_display }}</h3>
+                            <p>
+                                {{ appointment.appointment_time }}
+                                · {{ appointment.phone }}
+                            </p>
+
+                            {% if appointment.comment %}
+                                <small>{{ appointment.comment }}</small>
+                            {% endif %}
+                        </div>
+
+                        <a
+                            class="danger-link"
+                            href="{% url 'main:cancel_booking' appointment.pk %}"
+                        >
+                            Скасувати
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state reveal">
+                <span>✂</span>
+                <h2>Записів ще немає.</h2>
+                <p>Обери послугу, дату та зручний час.</p>
+                <a class="btn" href="{% url 'main:booking' %}">
+                    Записатися
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

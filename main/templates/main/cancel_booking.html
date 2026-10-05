@@ -1,0 +1,32 @@
+{% extends "main/base.html" %}
+
+{% block title %}Скасування запису — Barber Jaster{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+    <div class="container small-container">
+        <div class="confirm-card reveal">
+            <span class="eyebrow">СКАСУВАННЯ</span>
+            <h1>Скасувати запис?</h1>
+
+            <div class="confirm-details">
+                <strong>{{ appointment.get_service_display }}</strong>
+                <span>
+                    {{ appointment.appointment_date|date:"d.m.Y" }}
+                    о {{ appointment.appointment_time }}
+                </span>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <button class="btn danger-btn" type="submit">
+                    Так, скасувати
+                </button>
+                <a class="secondary-btn" href="{% url 'main:my_bookings' %}">
+                    Назад
+                </a>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
